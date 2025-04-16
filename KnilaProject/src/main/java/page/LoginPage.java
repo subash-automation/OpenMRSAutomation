@@ -4,15 +4,11 @@ import enums.LoginPageEnum;
 import enums.Timeout;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import utility.WaitUtil;
 
-import java.util.concurrent.TimeUnit;
-
 import static core.DriverManager.getDriver;
-
 
 public class LoginPage extends AbstractBasePage {
 

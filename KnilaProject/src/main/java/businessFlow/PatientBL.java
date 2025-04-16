@@ -42,7 +42,13 @@ public class PatientBL {
 
     RegisterPatientPage patientPage = PageFactory.initElements(getDriver(), RegisterPatientPage.class);
 
+    /**
+     * Register new patient
+     * @param users
+     * @return
+     */
     public PatientDetailsPage registerNewPatient(Users users) {
+        System.out.println("Register new patient");
         PatientDemographic basic = users.getPatientDemo();
         PatientContact contact = users.getPatientContact();
         fillName(basic);
@@ -100,6 +106,10 @@ public class PatientBL {
         patientPage.clickOnElement(RegisterPatientPageEnum.NEXT);
     }
 
+    /**
+     * Ensure information populated correctly
+     * @param users
+     */
     public void ensureDetailsInConfirmPage(Users users){
         System.out.println("Ensure Name information populated correctly");
         String[] names = patientPage.getTextFromField(RegisterPatientPageEnum.CONFIRM_NAME).split(",");

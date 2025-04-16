@@ -42,6 +42,11 @@ public class AutomationListener implements ITestListener {
         }
     }
 
+    /**
+     * Take screen shot
+     * @param result
+     * @return
+     */
     private String takeScreenshot(ITestResult result) {
         DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ssaa");
         String fileName = result.getMethod().getMethodName() + "_" + dateFormat.format(new Date()) + ".png";
@@ -96,8 +101,13 @@ public class AutomationListener implements ITestListener {
         }
     }
 
+    /**
+     * Get the screenshot path
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     private static Path getTargetScreenshotPath(final String fileName) throws IOException {
-
         final String dir = System.getProperty("user.dir");
         final Path baseDir = Paths.get(dir, fileName);
         Files.createDirectories(baseDir);

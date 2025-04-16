@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 public enum DashboardPageEnum {
 
     REGISTER_PATIENT(By.xpath("//a[contains(@id,'registerPatient')]"), "Register a patient button"),
+
     ALL_APPS(By.id("apps"), "All apps");
 
     private By locator;

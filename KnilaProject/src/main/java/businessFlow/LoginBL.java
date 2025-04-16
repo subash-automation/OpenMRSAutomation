@@ -34,11 +34,8 @@ public class LoginBL {
     public DashboardPage loginWithCreds(Users users){
         LoginPage loginPage = PageFactory.initElements(getDriver(), LoginPage.class);
         loginPage.fillFields(LoginPageEnum.USERNAME, users.getUserName(), true);
-//        loginPage.fillFields(LoginPageEnum.USERNAME, "Admin", true);
         loginPage.fillFields(LoginPageEnum.PASSWORD, users.getPassword(), true);
-//        loginPage.fillFields(LoginPageEnum.PASSWORD, "Admin123", true);
         loginPage.clickOnElement(LoginPageEnum.LOCATION, users.getLocation().toLowerCase());
-//        loginPage.clickOnElement(LoginPageEnum.LOCATION, "pharmacy");
         loginPage.clickOnElement(LoginPageEnum.LOGIN_BTN);
 
         return PageFactory.initElements(getDriver(), DashboardPage.class);

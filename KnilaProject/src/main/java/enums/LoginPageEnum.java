@@ -5,9 +5,13 @@ import org.openqa.selenium.By;
 public enum LoginPageEnum {
 
     LOGIN_BTN(By.id("loginButton"), "Login button"),
+
     USERNAME(By.id("username"), "Username input"),
+
     PASSWORD(By.id("password"), "Password input"),
+
     LOCATION("//ul[@id='sessionLocation']//li[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '%s']", "Location"),
+
     LOGIN_FORM(By.xpath("//form[@id='login-form']"), "Login page");
 
     private By locator;

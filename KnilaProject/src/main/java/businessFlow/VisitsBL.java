@@ -37,8 +37,16 @@ public class VisitsBL {
 
     VisitsPage visitsPage = PageFactory.initElements(getDriver(), VisitsPage.class);
 
+    /**
+     * Add attachment
+     * @param filePath
+     * @param caption
+     * @throws AWTException
+     * @throws InterruptedException
+     */
     public void addAttachment(String filePath, String caption) throws AWTException, InterruptedException {
 
+        System.out.println("Add attachment to patient");
         visitsPage.clickOnElement(VisitsPageEnum.ATTACHMENTS);
         WaitUtil.waitUntil(getDriver(), 5);
         visitsPage.isAttachmentPageLoaded();
@@ -94,7 +102,6 @@ public class VisitsBL {
         BigDecimal bd = new BigDecimal(bmi);
         bd = bd.setScale(1, RoundingMode.HALF_UP);
         bmi = bd.doubleValue();
-
         System.out.println("The BMI is: "+bmi);
 
         return bmi;

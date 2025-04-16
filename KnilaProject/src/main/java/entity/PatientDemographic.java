@@ -3,12 +3,19 @@ package entity;
 public class PatientDemographic {
 
     private String givenName;
+
     private String middleName;
+
     private String familyName;
+
     private String gender;
+
     private int dayOfBirth;
+
     private String monthOfBirth;
+
     private int yearOfBirth;
+
 
     public String getGivenName() {
         return givenName;

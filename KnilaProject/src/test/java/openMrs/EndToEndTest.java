@@ -21,6 +21,8 @@ import static core.DriverManager.*;
 
 @Listeners(AutomationListener.class)
 public class EndToEndTest {
+
+    /** The webdriver */
     WebDriver driver;
 
     @BeforeTest
@@ -29,17 +31,25 @@ public class EndToEndTest {
         startApplication();
     }
 
+    /**
+     * End to End Validation
+     * @param users
+     * @throws InterruptedException
+     * @throws AWTException
+     */
     @Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
     public void e2eValidation(Users users) throws InterruptedException, AWTException {
 
         PatientDemographic basic = users.getPatientDemo();
         users.getPatientContact().setPhone(generatePhoneNumber());
 
+        stepLog("Login with valid credentials");
         LoginPage loginPage = PageFactory.initElements(getDriver(), LoginPage.class);
         loginPage.isPageLoaded();
-
         DashboardPage dashboardPage = LoginBL.getInstance().loginWithCreds(users);
         dashboardPage.isPageLoaded();
+
+        stepLog("Validate Register a Patient flow");
         RegisterPatientPage registerPatient = dashboardPage.clickOnRegisterPatient();
         registerPatient.isPageLoaded();
         PatientDetailsPage detailsPage = PatientBL.getInstance().registerNewPatient(users);
@@ -47,6 +57,8 @@ public class EndToEndTest {
         String dob = basic.getDayOfBirth()+","+basic.getMonthOfBirth()+","+basic.getYearOfBirth();
         int age = DateUtil.calculateAge(dob);
         Assert.assertTrue(age == Integer.parseInt(detailsPage.getAgeFromUI()),"Age is not calculated as per DOB");
+
+        stepLog("start visit and validate add attachment flow");
         VisitsPage visitsPage = detailsPage.startVisit();
         visitsPage.isPageLoaded();
         String projectDir = System.getProperty("user.dir");
@@ -55,13 +67,16 @@ public class EndToEndTest {
         detailsPage = visitsPage.goBackToPatientDetailPage(users.getPatientDemo());
         Assert.assertTrue(detailsPage.isElementDisplayed(PatientDetailsPageEnum.ATTACHMENTS_THUMBNAIL));
         detailsPage.verifyTheAttachmentUploadTraces(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE), 1);
+
+        stepLog("End visit from Patient Details page");
         detailsPage.endVsit();
+
+        stepLog("Start visit and validate add vitals flow");
         visitsPage = detailsPage.startVisit();
         VisitsBL.getInstance().addBasicVitalsForBMI(users.getVitals());
         detailsPage = visitsPage.endVisit();
         detailsPage.ensureBMIDetails(users.getVitals());
         detailsPage.verifyTheVitalTraces(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE), 2);
-
 
     }
 
@@ -73,6 +88,14 @@ public class EndToEndTest {
         Random random = new Random();
         long number = 9_000_000_000L + (long)(random.nextDouble() * 1_000_000_000L);
         return Long.toString(number);
+    }
+
+    /**
+     * Special log for steps
+     * @param text
+     */
+    private void stepLog(String text){
+        System.out.println("\n***"+text.toUpperCase()+" ***\n");
     }
 
     /**

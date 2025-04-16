@@ -3,13 +3,19 @@ package entity;
 public class PatientContact {
 
     private String address;
+
     private String address2;
+
     private String city;
+
     private String state;
+
     private String country;
+
     private int postCode;
 
     private String phone;
+
 
     public String getAddress() {
         return address;

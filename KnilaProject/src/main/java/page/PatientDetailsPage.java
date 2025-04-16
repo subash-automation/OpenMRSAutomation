@@ -4,7 +4,6 @@ import businessFlow.VisitsBL;
 import entity.Vitals;
 import enums.PatientDetailsPageEnum;
 import enums.Timeout;
-import enums.VisitsPageEnum;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;

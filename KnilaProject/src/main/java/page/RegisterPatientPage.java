@@ -1,6 +1,5 @@
 package page;
 
-import enums.LoginPageEnum;
 import enums.RegisterPatientPageEnum;
 import enums.Timeout;
 import org.openqa.selenium.By;

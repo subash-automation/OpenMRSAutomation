@@ -39,7 +39,7 @@ public class DriverManager {
 
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", prefs);
-            options.addArguments("--start-maximized"); // optional
+            options.addArguments("--start-maximized");
 
             driver = new ChromeDriver(options);
         }
