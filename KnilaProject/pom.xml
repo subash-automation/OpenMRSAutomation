@@ -12,40 +12,15 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!--      <automation.version>8.26.0-SNAPSHOT</automation.version>-->
       <testng.version>6.8</testng.version>
       <selenium.version>3.141.59</selenium.version>
       <java.version>1.8</java.version>
       <junit.version>3.8.1</junit.version>
       <webdrivermanager.version>5.7.0</webdrivermanager.version>
-<!--      <slf4j.version>1.7.32</slf4j.version>-->
-<!--      <log4j.version>2.17.0</log4j.version>-->
       <jackson.version>2.8.4</jackson.version>
-<!--      <guice.version>3.0</guice.version>-->
-<!--      <joda-time.version>2.4</joda-time.version>-->
-<!--      <jxl.version>2.6</jxl.version>-->
-<!--      <xmlrpc.version>3.1.3</xmlrpc.version>-->
-<!--      <xml-apis.version>1.4.01</xml-apis.version>-->
-<!--      <pdfbox.version>1.8.10</pdfbox.version>-->
-<!--      <invoker.version>2.1.1</invoker.version>-->
-<!--      <browsermob.version>2.1.2</browsermob.version>-->
-<!--      <jersey-client.version>2.25.1</jersey-client.version>-->
-<!--      <opencsv.version>4.4</opencsv.version>-->
-<!--      <nExeter.version>8.17.0-SNAPSHOT</nExeter.version>-->
-<!--      <jenkins.version>0.2.0</jenkins.version>-->
-<!--      <loginClient.version>7.94-SNAPSHOT</loginClient.version>-->
-<!--      <saucerest.version>1.1.2</saucerest.version>-->
-<!--      <awsSDK.version>1.12.555</awsSDK.version>-->
-<!--      <postgresql.version>42.7.3</postgresql.version>-->
   </properties>
 
   <dependencies>
-<!--    <dependency>-->
-<!--      <groupId>junit</groupId>-->
-<!--      <artifactId>junit</artifactId>-->
-<!--      <version>${junit.version}</version>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
 
     <dependency>
       <groupId>org.testng</groupId>
