@@ -4,6 +4,10 @@ import org.openqa.selenium.By;
 
 public enum PatientDetailsPageEnum {
 
+    MERGE_ENTRY("//visitbyencountertype//a[contains(text(),'%s')]//following-sibling::div[text()='%s']", "Merged visits entry"),
+
+    PATIENT_NAME_LINK("//a[contains(text(),'%s')]","Patient name link"),
+
     CONFIRM_BMI(By.xpath("//h3[text()='(Calculated) BMI']//following-sibling::span//span[@id='calculated-bmi']"), "BMI in patient page"),
 
     CONFIRM_WEIGHT(By.xpath("//h3[text()='Weight (kg)']//following-sibling::p//span[@class='value']"), "Weight in patient page"),
@@ -23,6 +27,8 @@ public enum PatientDetailsPageEnum {
     CONFIRM(By.id("start-visit-with-visittype-confirm"), "Confirm button"),
 
     START_VISIT(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Start Visit')]"), "Start visit button"),
+
+    MERGE_VISITS(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Merge Visits')]"), "Start visit button"),
 
     END_VISIT(By.xpath("//div[@class='col-12 col-lg-3 p-0']//h3[text()='Current Visit Actions']//following-sibling::li//a//div//div[contains(text(),'End Visit')]"), "End visit button"),
 

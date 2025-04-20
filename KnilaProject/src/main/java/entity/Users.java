@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 public class Users {
 
     private String userName;
@@ -13,6 +15,8 @@ public class Users {
     private PatientContact patientContact;
 
     private Vitals vitals;
+
+    private List<Visits> visitsList;
 
 
     public String getUserName() { return userName; }
@@ -47,5 +51,12 @@ public class Users {
     }
     public void setVitals(Vitals vitals) {
         this.vitals = vitals;
+    }
+
+    public List<Visits> getVisitsList() {
+        return visitsList;
+    }
+    public void setVisitsList(List<Visits> visitsList) {
+        this.visitsList = visitsList;
     }
 }

@@ -75,8 +75,18 @@ public class EndToEndTest {
         visitsPage = detailsPage.startVisit();
         VisitsBL.getInstance().addBasicVitalsForBMI(users.getVitals());
         detailsPage = visitsPage.endVisit();
+//        detailsPage.goBackToPatientDetailPage(users.getPatientDemo());
+        System.out.println("Click manually");
+        detailsPage.isPageLoaded();
         detailsPage.ensureBMIDetails(users.getVitals());
         detailsPage.verifyTheVitalTraces(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE), 2);
+
+        stepLog("Validate Merge visits flow");
+        MergePage mergePage = detailsPage.startMerge();
+        mergePage.mergeVisits(users.getVisitsList());
+        detailsPage = mergePage.clickOnReturn();
+        detailsPage.isPageLoaded();
+        detailsPage.verifyRecentVisitMerge(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE),users.getVisitsList());
 
     }
 

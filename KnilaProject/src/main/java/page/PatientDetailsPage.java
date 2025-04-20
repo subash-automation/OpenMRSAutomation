@@ -1,9 +1,13 @@
 package page;
 
 import businessFlow.VisitsBL;
+import entity.PatientDemographic;
+import entity.Visits;
 import entity.Vitals;
 import enums.PatientDetailsPageEnum;
 import enums.Timeout;
+import enums.VisitsPageEnum;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -100,12 +104,42 @@ public class PatientDetailsPage extends AbstractBasePage{
     }
 
     /**
+     * Verify the attchment traces (Visit entry date and upload tag)
+     * @param entryDate
+     */
+    public void verifyRecentVisitMerge(String entryDate, List<Visits> visitsList) {
+        System.out.println("Verify the visit merge on " + entryDate + " is diaplyed");
+        String encounters = visitsList.get(0).getEncounter().trim();
+        for (int i = 1; i < visitsList.size(); i++) {
+            encounters = encounters + ", " + visitsList.get(i).getEncounter().trim();
+        }
+        String xPath = String.format(PatientDetailsPageEnum.MERGE_ENTRY.getXpath(), entryDate.trim(), encounters);
+        WebElement mergeEntry = WaitUtil.waitForVisibility(getDriver(), By.xpath(xPath), Timeout.TEN_SEC);
+        Assert.assertTrue(mergeEntry != null && mergeEntry.isDisplayed(), "Recent merge entry was not displayed");
+    }
+
+    /**
      * Click on the given element
      * @param path
      */
     public void clickOnElement(PatientDetailsPageEnum path){
         System.out.println("Click on "+path.getDesc()+" element");
         WebElement element = WaitUtil.waitForVisibility(getDriver(), path.getLocator(), Timeout.TEN_SEC);
+        Assert.assertNotNull(element, path.getDesc()+" element is NULL");
+        try{
+            element.click();
+        } catch (Exception e) {
+            JavascriptExecutor js = (JavascriptExecutor) getDriver();
+            js.executeScript("arguments[0].click();", element);
+        }
+    }
+
+    /**
+     * Click on the given element
+     * @param path
+     */
+    public void clickOnElement(PatientDetailsPageEnum path, String value){
+        WebElement element = WaitUtil.waitForVisibility(getDriver(), By.xpath(String.format(path.getXpath(), value)), Timeout.FIVE_SEC);
         Assert.assertNotNull(element, path.getDesc()+" element is NULL");
         try{
             element.click();
@@ -157,10 +191,10 @@ public class PatientDetailsPage extends AbstractBasePage{
     public void ensureBMIDetails(Vitals vitals){
         System.out.println("Ensure Vitals and BMI populated correctly in patient details page");
         String height = getTextFromField(PatientDetailsPageEnum.CONFIRM_HEIGHT);
-        Assert.assertTrue(height.equalsIgnoreCase(Double.toString(vitals.getHeight())), "Height is mismatching in patient page");
-        String weight = getTextFromField(PatientDetailsPageEnum.CONFIRM_WEIGHT).split(":")[1].trim().split(" ")[0].trim();
-        Assert.assertTrue(weight.equalsIgnoreCase(Double.toString(vitals.getWeight())), "Weight is mismatching in patient page");
-        String bmi = getTextFromField(PatientDetailsPageEnum.CONFIRM_BMI).split(":")[1].trim().split(" ")[0].trim();
+        Assert.assertTrue(Double.parseDouble(height) == vitals.getHeight(), "Height is mismatching in patient page");
+        String weight = getTextFromField(PatientDetailsPageEnum.CONFIRM_WEIGHT);
+        Assert.assertTrue(Double.parseDouble(weight)==vitals.getWeight(), "Weight is mismatching in patient page");
+        String bmi = getTextFromField(PatientDetailsPageEnum.CONFIRM_BMI);
         Assert.assertTrue(Double.parseDouble(bmi)== VisitsBL.getInstance().calulateBMI(vitals), "BMI generated in patient page is not correct");
         System.out.println("All data populated properly in patient details page");
     }
@@ -178,6 +212,40 @@ public class PatientDetailsPage extends AbstractBasePage{
         WebElement tag = WaitUtil.waitForVisibility(getDriver(), PatientDetailsPageEnum.VITALS_TAG.getLocator(), Timeout.FIVE_SEC);
         Assert.assertTrue(tag!=null && tag.isDisplayed(), "Vitals tag is not displayed");
         System.out.println("Vitals tag displayed in recent visit");
+    }
+
+    /**
+     * Go back to Patient details page
+     * @return
+     */
+    public PatientDetailsPage goBackToPatientDetailPage(PatientDemographic basic) throws InterruptedException {
+        String patientName;
+        if(basic.getMiddleName()!=null)
+            patientName = basic.getGivenName()+" "+basic.getMiddleName()+" "+basic.getFamilyName();
+        else
+            patientName = basic.getGivenName()+" "+basic.getFamilyName();
+        System.out.println("Go back to patient details page by clicking the patient name link");
+        WebElement name = WaitUtil.waitForClickability(getDriver(), By.xpath(String.format(PatientDetailsPageEnum.PATIENT_NAME_LINK.getXpath(), patientName)), Timeout.TEN_SEC);
+        Assert.assertTrue(name!=null && name.isDisplayed(), "Patient name link was not displayed");
+        clickOnElement(PatientDetailsPageEnum.PATIENT_NAME_LINK, patientName);
+        return PageFactory.initElements(getDriver(), PatientDetailsPage.class);
+    }
+
+    /**
+     * Click on the given element
+     */
+    public MergePage startMerge(){
+        System.out.println("Click on Merge visits element");
+        WebElement element = WaitUtil.waitForVisibility(getDriver(), PatientDetailsPageEnum.MERGE_VISITS.getLocator(), Timeout.TEN_SEC);
+        Assert.assertNotNull(element, "Merge visit button was not displayed");
+        try{
+            element.click();
+        } catch (Exception e) {
+            JavascriptExecutor js = (JavascriptExecutor) getDriver();
+            js.executeScript("arguments[0].click();", element);
+        }
+
+        return PageFactory.initElements(getDriver(), MergePage.class);
     }
 
 }

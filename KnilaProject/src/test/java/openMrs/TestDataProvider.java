@@ -3,10 +3,7 @@ package openMrs;
 //import data.UserData;
 //import utils.JsonUtil;
 
-import entity.PatientContact;
-import entity.PatientDemographic;
-import entity.Users;
-import entity.Vitals;
+import entity.*;
 import org.testng.annotations.DataProvider;
 import utility.DateUtil;
 import utility.JsonUtil;
@@ -14,6 +11,8 @@ import utility.JsonUtil;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class TestDataProvider {
@@ -37,9 +36,20 @@ public class TestDataProvider {
             PatientContact contact = JsonUtil.fromJson(props.getProperty("case1.patientContact"), PatientContact.class);
             Vitals vitals = JsonUtil.fromJson(props.getProperty("case1.vitals"), Vitals.class);
 
+            List<Visits> visitsList = new ArrayList<>();
+
+            Visits visits1 = JsonUtil.fromJson(props.getProperty("case1.visits1"), Visits.class);
+            visits1.setEndDate(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE));
+            visitsList.add(visits1);
+
+            Visits visits2 = JsonUtil.fromJson(props.getProperty("case1.visits2"), Visits.class);
+            visits2.setEndDate(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE));
+            visitsList.add(visits2);
+
             user.setPatientDemo(basic);
             user.setPatientContact(contact);
             user.setVitals(vitals);
+            user.setVisitsList(visitsList);
             return new Object[][]{{user}};
         }
 
