@@ -1,5 +1,7 @@
 package utility;
 
+import entity.PatientDemographic;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -66,5 +68,21 @@ public class DateUtil {
         System.out.println("Current Date: " + formattedDate);
 
         return formattedDate;
+    }
+
+    /**
+     * Get simple formatted DOB
+     * @param basic
+     * @return
+     */
+    public static String convertDOBtoSimpleDateFormat(PatientDemographic basic){
+        String month = basic.getMonthOfBirth();
+        if(month.length()>3){
+            month = month.substring(0,4);
+        }
+        month = month.substring(0, 1).toUpperCase() + month.substring(1).toLowerCase();
+        String dob = basic.getDayOfBirth()+"."+month+"."+basic.getYearOfBirth();
+
+        return dob;
     }
 }

@@ -4,6 +4,18 @@ import org.openqa.selenium.By;
 
 public enum PatientDetailsPageEnum {
 
+    DELETED_MESSAGE(By.xpath("//div[@class='toast-item toast-type-success']//p[text()='Patient has been deleted successfully']"), "Delete success message"),
+
+    DELETE_CONFIRM(By.xpath("//input[@id='delete-reason']//following-sibling::button[@class='confirm right']"),"Delete confirm button"),
+
+    REASON_INPUT(By.xpath("//input[@id='delete-reason']"), "Reason input"),
+
+    DELETE_DIALOG_BOX(By.xpath("//div[@class='dialog-content']//p[contains(text(),'Are you sure you want to DELETE the patient')]"), "Delete dialog box"),
+
+    FUTURE_DATE_IN_DATEPICKER("//div[@class='datetimepicker-days']//table//tbody//td[@class='day disabled' and text()='%s']", "Future date in datepicker"),
+
+    PAST_START_DATE(By.xpath("//span[@id='retrospectiveVisitStartDate']"),"Past start date input"),
+
     MERGE_ENTRY("//visitbyencountertype//a[contains(text(),'%s')]//following-sibling::div[text()='%s']", "Merged visits entry"),
 
     PATIENT_NAME_LINK("//a[contains(text(),'%s')]","Patient name link"),
@@ -28,9 +40,13 @@ public enum PatientDetailsPageEnum {
 
     START_VISIT(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Start Visit')]"), "Start visit button"),
 
-    MERGE_VISITS(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Merge Visits')]"), "Start visit button"),
+    MERGE_VISITS(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Merge Visits')]"), "Merge visits button"),
+
+    ADD_PAST_VISIT(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Add Past Visit')]"), "Add past visit button"),
 
     END_VISIT(By.xpath("//div[@class='col-12 col-lg-3 p-0']//h3[text()='Current Visit Actions']//following-sibling::li//a//div//div[contains(text(),'End Visit')]"), "End visit button"),
+
+    DELETE_PATIENT(By.xpath("//h3[text()='General Actions']//following-sibling::li//a//div//div[contains(text(),'Delete Patient')]"), "End visit button"),
 
     AGE(By.xpath("//div[@class='gender-age col-auto']//span[2]"), "Age field"),
 

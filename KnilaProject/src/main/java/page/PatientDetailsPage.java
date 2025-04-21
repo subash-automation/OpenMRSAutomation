@@ -4,6 +4,7 @@ import businessFlow.VisitsBL;
 import entity.PatientDemographic;
 import entity.Visits;
 import entity.Vitals;
+import enums.LoginPageEnum;
 import enums.PatientDetailsPageEnum;
 import enums.Timeout;
 import enums.VisitsPageEnum;
@@ -12,6 +13,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import utility.DateUtil;
 import utility.WaitUtil;
 
 import java.util.List;
@@ -248,4 +250,71 @@ public class PatientDetailsPage extends AbstractBasePage{
         return PageFactory.initElements(getDriver(), MergePage.class);
     }
 
+    /**
+     * End visit
+     */
+    public void clickAddPastVist() {
+        System.out.println("Click on Add past visit button");
+        WebElement element = WaitUtil.waitForVisibility(getDriver(), PatientDetailsPageEnum.ADD_PAST_VISIT.getLocator(), Timeout.TEN_SEC);
+        Assert.assertNotNull(element, "End vist element is NULL");
+        try {
+            element.click();
+        } catch (Exception e) {
+            JavascriptExecutor js = (JavascriptExecutor) getDriver();
+            js.executeScript("arguments[0].click();", element);
+        }
+    }
+
+    /**
+     * Check future dates are clickable
+     * @return
+     */
+    public void checkFutureDatesClickable(){
+        System.out.println("Check future dates are clickable");
+        String currentDate = DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE);
+        int date = Integer.parseInt(currentDate.split("\\.")[0].trim());
+        String xPath = null;
+        WebElement dateElement;
+        for(int i=0; i<3; i++){
+            date = date+1;
+            xPath =  String.format(PatientDetailsPageEnum.FUTURE_DATE_IN_DATEPICKER.getXpath(),Integer.toString(date));
+            dateElement = WaitUtil.waitForVisibility(getDriver(), By.xpath(xPath), Timeout.TEN_SEC);
+            System.out.println("Is date "+date+" displayed: "+dateElement==null && !dateElement.isDisplayed());
+            Assert.assertTrue(dateElement!=null && dateElement.isDisplayed(), "Date "+date+" is clickable");
+        }
+        System.out.println("Future dates are not clickable");
+    }
+
+    /**
+     * Fill the value in the given field
+     * @param path
+     * @param text
+     */
+    public void fillFields(PatientDetailsPageEnum path, String text, boolean mandy){
+        if(mandy){
+            System.out.println("Enter value :" + text + " in mandatory field " + path.getDesc());
+            Assert.assertTrue(text!=null && !text.isEmpty(), "Entering value is null or emplty for a mandatory field");
+        }
+        System.out.println("Enter value :" + text + " in field " + path.getDesc());
+        WebElement field = WaitUtil.waitForVisibility(getDriver(), path.getLocator(), Timeout.FIVE_SEC);
+        Assert.assertNotNull(field, path.getDesc()+" field is not displayed");
+        field.click();
+        field.clear();
+        field.sendKeys(text);
+    }
+
+    /**
+     * Delete patient
+     * @param reason
+     */
+    public PatientRecordPage deletePatient(String reason){
+        System.out.println("Delete the patient");
+        clickOnElement(PatientDetailsPageEnum.DELETE_PATIENT);
+        isElementDisplayed(PatientDetailsPageEnum.DELETE_DIALOG_BOX);
+        fillFields(PatientDetailsPageEnum.REASON_INPUT, reason, true);
+        clickOnElement(PatientDetailsPageEnum.DELETE_CONFIRM);
+        Assert.assertTrue(isElementDisplayed(PatientDetailsPageEnum.DELETED_MESSAGE));
+
+        return PageFactory.initElements(getDriver(), PatientRecordPage.class);
+    }
 }

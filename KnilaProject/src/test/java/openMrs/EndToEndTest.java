@@ -75,8 +75,7 @@ public class EndToEndTest {
         visitsPage = detailsPage.startVisit();
         VisitsBL.getInstance().addBasicVitalsForBMI(users.getVitals());
         detailsPage = visitsPage.endVisit();
-//        detailsPage.goBackToPatientDetailPage(users.getPatientDemo());
-        System.out.println("Click manually");
+        detailsPage.goBackToPatientDetailPage(users.getPatientDemo());
         detailsPage.isPageLoaded();
         detailsPage.ensureBMIDetails(users.getVitals());
         detailsPage.verifyTheVitalTraces(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE), 2);
@@ -87,6 +86,18 @@ public class EndToEndTest {
         detailsPage = mergePage.clickOnReturn();
         detailsPage.isPageLoaded();
         detailsPage.verifyRecentVisitMerge(DateUtil.getCurrentDate(DateUtil.SIMPLE_DATE),users.getVisitsList());
+
+        stepLog("Validate Add past date flow");
+        detailsPage.clickAddPastVist();
+        detailsPage.checkFutureDatesClickable();
+        detailsPage.clickAddPastVist();
+
+        stepLog("Validate Delete patient flow");
+        PatientRecordPage recordPage = detailsPage.deletePatient("Reason");
+        recordPage.isPageLoaded();
+
+        stepLog("Verify patient was not listed");
+        recordPage.verifyDeletedPatientNotListed(users.getPatientDemo());
 
     }
 
