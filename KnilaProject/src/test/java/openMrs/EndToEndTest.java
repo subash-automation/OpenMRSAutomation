@@ -90,7 +90,6 @@ public class EndToEndTest {
         stepLog("Validate Add past date flow");
         detailsPage.clickAddPastVist();
         detailsPage.checkFutureDatesClickable();
-        detailsPage.clickAddPastVist();
 
         stepLog("Validate Delete patient flow");
         PatientRecordPage recordPage = detailsPage.deletePatient("Reason");

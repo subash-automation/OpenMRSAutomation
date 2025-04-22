@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 
 public enum PatientRecordPageEnum {
 
+    NO_RECORDS(By.xpath("//td[text()='No matching records found']"), "No records"),
+
     SEARCH_RESULT_ROW("//td[5][contains(text(),'%s')]//preceding-sibling::td[3][text()='%s']//ancestor::tr", "Row of search result"),
 
     SEARCH_FIELD(By.xpath("//input[@id='patient-search']"),"Search field"),

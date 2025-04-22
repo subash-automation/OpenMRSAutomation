@@ -78,7 +78,7 @@ public class DateUtil {
     public static String convertDOBtoSimpleDateFormat(PatientDemographic basic){
         String month = basic.getMonthOfBirth();
         if(month.length()>3){
-            month = month.substring(0,4);
+            month = month.substring(0,3);
         }
         month = month.substring(0, 1).toUpperCase() + month.substring(1).toLowerCase();
         String dob = basic.getDayOfBirth()+"."+month+"."+basic.getYearOfBirth();

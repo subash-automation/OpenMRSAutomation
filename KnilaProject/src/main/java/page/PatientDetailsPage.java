@@ -10,7 +10,9 @@ import enums.Timeout;
 import enums.VisitsPageEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import utility.DateUtil;
@@ -227,8 +229,10 @@ public class PatientDetailsPage extends AbstractBasePage{
         else
             patientName = basic.getGivenName()+" "+basic.getFamilyName();
         System.out.println("Go back to patient details page by clicking the patient name link");
-        WebElement name = WaitUtil.waitForClickability(getDriver(), By.xpath(String.format(PatientDetailsPageEnum.PATIENT_NAME_LINK.getXpath(), patientName)), Timeout.TEN_SEC);
+        WebElement name = WaitUtil.waitForVisibility(getDriver(), By.xpath(String.format(PatientDetailsPageEnum.PATIENT_NAME_LINK.getXpath(), patientName)), Timeout.TEN_SEC);
         Assert.assertTrue(name!=null && name.isDisplayed(), "Patient name link was not displayed");
+        getDriver().navigate().refresh();
+        Thread.sleep(5000);
         clickOnElement(PatientDetailsPageEnum.PATIENT_NAME_LINK, patientName);
         return PageFactory.initElements(getDriver(), PatientDetailsPage.class);
     }
@@ -283,6 +287,8 @@ public class PatientDetailsPage extends AbstractBasePage{
             Assert.assertTrue(dateElement!=null && dateElement.isDisplayed(), "Date "+date+" is clickable");
         }
         System.out.println("Future dates are not clickable");
+        Actions actions = new Actions(getDriver());
+        actions.sendKeys(Keys.ESCAPE).perform();
     }
 
     /**

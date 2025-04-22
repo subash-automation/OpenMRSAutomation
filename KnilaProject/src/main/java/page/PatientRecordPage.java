@@ -48,9 +48,7 @@ public class PatientRecordPage extends AbstractBasePage{
     public void verifyDeletedPatientNotListed(PatientDemographic basic){
         String fullName = basic.getGivenName()+" "+basic.getMiddleName()+" "+basic.getFamilyName();
         fillFields(PatientRecordPageEnum.SEARCH_FIELD, fullName,true);
-        String dob = DateUtil.convertDOBtoSimpleDateFormat(basic);
-        String xPath = String.format(PatientRecordPageEnum.SEARCH_RESULT_ROW.getXpath(), dob, fullName);
-        WebElement result = WaitUtil.waitForVisibility(getDriver(), By.xpath(xPath), Timeout.TEN_SEC);
-        Assert.assertFalse(result!=null && result.isDisplayed(), "Patient is listed after deletion");
+        WebElement result = WaitUtil.waitForVisibility(getDriver(), PatientRecordPageEnum.NO_RECORDS.getLocator(), Timeout.TEN_SEC);
+        Assert.assertTrue(result!=null && result.isDisplayed(), "Patient is listed after deletion");
     }
 }
